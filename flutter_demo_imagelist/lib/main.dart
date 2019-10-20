@@ -94,7 +94,7 @@ class MyApp extends StatelessWidget {
       padding: const EdgeInsets.all(32),
       child: new Text(
         '''
-        我是大标题奥斯卡的垃圾堆上；垃圾卡熬点法发迹的；家路口发就发；的健身房卡； 发觉法；的发健身房拉开的说法；算法第三方举案说法按实际的立法；是疯狂拉升大家水电费啊；书法家阿里；水电费静安寺；地方安抚；阿斯蒂芬
+        如何修改你的应用程序，使其对用户动作做出反应？在本教程中，您将为widget添加交互。 具体来说，您将通过创建一个管理两个无状态widget的自定义有状态的widget来使图标可以点击。
         ''',
         softWrap: true,
       ),
