@@ -408,6 +408,121 @@ class MyHomePage extends StatefulWidget {
 
 }
 
+/*
+定义一个购物车应用
+ */
+
+/*
+定义一个类
+ */
+
+class Product {
+
+  const Product(this.name);
+  final String name;
+}
+
+/*
+搭建购物车界面
+ */
+
+typedef void CartChangedCallback(Product product, bool inCart);
+
+class ShoppingListItem extends StatelessWidget {
+
+  //构造函数
+  ShoppingListItem({Product product, this.inCart, this.onCartChanged})
+    : product = product,
+    super(key: new ObjectKey(product));
+
+  final Product product;
+  final bool inCart;
+  final CartChangedCallback onCartChanged;
+
+  //UI界面构造
+
+  Color _getColor(BuildContext context) {
+    return inCart ? Colors.black54 : Theme.of(context).primaryColor;
+  }
+
+  TextStyle _getTextStyle(BuildContext context) {
+    if (!inCart) return null;
+    return new TextStyle(
+      color: Colors.black54,
+      decoration: TextDecoration.lineThrough
+    );
+  }
+
+  //widget 初始化函数
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return new ListTile(
+      onTap: () {
+        onCartChanged(product, !inCart);
+      },
+      leading: new CircleAvatar(
+        backgroundColor: _getColor(context),
+        child: new Text(product.name),
+      ),
+      trailing: new Icon(
+        Icons.star,
+        color: inCart ? Colors.red : Colors.grey,
+      ),
+      title: new Text(product.name, style: _getTextStyle(context),),
+    );
+  }
+}
+
+/*
+父项将更新其内部状态，这将触发父项使用新inCart值重建ShoppingListItem新实例。
+虽然父项ShoppingListItem在重建时创建了一个新实例，但该操作开销很小，
+因为Flutter框架会将新构建的widget与先前构建的widget进行比较，并仅将差异部分应用于底层RenderObject。
+ */
+
+class ShoppingList extends StatefulWidget {
+
+  ShoppingList({Key key, this.products}) : super(key: key);
+
+  final List<Product> products;
+
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _ShoppingListState();
+  }
+}
+
+class _ShoppingListState extends State<ShoppingList> {
+  
+  Set<Product> _shoppingCart = new Set<Product>();
+  
+  void _handleCartChanged(Product product, bool inCart) {
+    setState(() {
+      if (inCart) {
+        _shoppingCart.add(product);
+      } else {
+        _shoppingCart.remove(product);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return new ListView(
+      padding: EdgeInsets.symmetric(vertical: 8.0),
+      children: widget.products.map((Product product) {
+        return new ShoppingListItem(
+          product: product,
+          inCart: _shoppingCart.contains(product),
+          onCartChanged: _handleCartChanged,
+        );
+      }).toList(),
+    );
+  }
+}
+
 class _MyHomePageState extends State<MyHomePage> {
 
 
@@ -479,49 +594,44 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Container(
-        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: ListView(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-//          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            widget.sectionMainImage,
-            widget.sectionRating,
-            new Divider(),
-            sectionIconList,
-            widget.sectionDesc,
-            new Divider(),
-            new Container(
-              padding: EdgeInsets.fromLTRB(100, 10, 100, 10),
-              child: TapBoxA(),
-            ),
-            new Container(
-              padding: EdgeInsets.fromLTRB(100, 10, 100, 10),
-              child: ParentWidget(),
-            ),
-            new Container(
-              padding: EdgeInsets.fromLTRB(100, 10, 100, 10),
-              child: ParentWidgetC(),
-            )
-
+      body: new Container(
+        child: ShoppingList(
+          products: <Product>[
+            new Product('Eggs'),
+            new Product('Flour'),
+            new Product('Chocolate chips')
           ],
         ),
-      ),
+      )
+
+//      Container(
+//        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+//        // Center is a layout widget. It takes a single child and positions it
+//        // in the middle of the parent.
+//        child: ListView(
+//          children: <Widget>[
+//            widget.sectionMainImage,
+//            widget.sectionRating,
+//            new Divider(),
+//            sectionIconList,
+//            widget.sectionDesc,
+//            new Divider(),
+//            new Container(
+//              padding: EdgeInsets.fromLTRB(100, 10, 100, 10),
+//              child: TapBoxA(),
+//            ),
+//            new Container(
+//              padding: EdgeInsets.fromLTRB(100, 10, 100, 10),
+//              child: ParentWidget(),
+//            ),
+//            new Container(
+//              padding: EdgeInsets.fromLTRB(100, 10, 100, 10),
+//              child: ParentWidgetC(),
+//            ),
+//
+//          ],
+//        ),
+//      ),
     );
   }
 }
