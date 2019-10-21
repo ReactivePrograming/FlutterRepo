@@ -97,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
             fontWeight: FontWeight.w800,
             fontFamily: 'Roboto',
             letterSpacing: 5,
-            fontSize: 20
+            fontSize: 16
           ),
         ),
       ],
@@ -193,8 +193,8 @@ class _MyHomePageState extends State<MyHomePage> {
             child: new Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                new Container(
-                  width: 300,
+                new Expanded(
+                  flex: 2,
                   child: leftColumn,
                 ),
                 new Expanded(
