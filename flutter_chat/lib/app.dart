@@ -15,6 +15,7 @@ class AppState extends State<App> {
 
   //记录当前selected index
   var _currentIndex = 0;
+  var _currentTitle = <String>['聊天', '好友', '我的'];
   //三大模块
   Message message;
   Contacts contacts;
@@ -24,7 +25,7 @@ class AppState extends State<App> {
     switch (_currentIndex) {
       case 0:
         if (message == null) {
-          message = new Message();
+          message = Message();
         }
         return message;
       case 1:
@@ -41,12 +42,50 @@ class AppState extends State<App> {
     }
   }
 
+  //弹出menu界面
+  _popMenuItem(String title, { String imagePath, IconData icon}) {
+    return PopupMenuItem(
+      child: Row(
+        children: <Widget>[
+          imagePath != null ? Image.asset(imagePath, width: 32.0, height: 32.0,) :
+              SizedBox(width: 32.0, height: 32.0, child: Icon(icon, color: Colors.white,),),
+          //文本内容
+          Container(
+            padding: EdgeInsets.only(left: 20),
+            child: Text(
+              title,
+              style: new TextStyle(color: Colors.white),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  _buildItems() {
+    return <PopupMenuEntry>[
+      _popMenuItem(
+          '发起会话',
+          imagePath: 'images/icon_menu_group.png'
+      ),
+      _popMenuItem(
+          '添加好友',
+          imagePath: 'images/icon_menu_addfriend.png'
+      ),
+      _popMenuItem(
+          '联系客服',
+          icon: Icons.person
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('即时通讯'),
+        title: new Text(_currentTitle[_currentIndex]),
+        centerTitle: true,
         actions: <Widget>[
           GestureDetector(
             onTap: () {
@@ -60,6 +99,12 @@ class AppState extends State<App> {
             child: GestureDetector(
               onTap: () {
                 //menu
+                showMenu(
+                  context: context,
+                  color: Colors.grey[600],
+                  position: RelativeRect.fromLTRB(500, 76.0, 10.0, 0.0),
+                  items: _buildItems()
+                );
               },
               child: Icon(Icons.add),
             ),
@@ -70,11 +115,11 @@ class AppState extends State<App> {
       bottomNavigationBar: new BottomNavigationBar(
         type: BottomNavigationBarType.fixed,//通过fixed color设置选中的颜色
         currentIndex: _currentIndex,
-        onTap: ((index){
+        onTap: (index) {
           setState(() {
             _currentIndex = index;
           });
-        }),
+        },
         items: [
           new BottomNavigationBarItem(
             title: new Text(
