@@ -15,8 +15,10 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return new Container(
-      color: Colors.blue,
+    return new Scaffold(
+      body: new Container(
+        margin: const EdgeInsets.only(top: 25),
+      ),
     );
   }
 }
