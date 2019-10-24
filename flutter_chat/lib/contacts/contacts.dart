@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter_chat/contacts/contact_sider.dart';
 
 class Contacts extends StatefulWidget {
 
@@ -17,8 +18,10 @@ class _ContactsState extends State<Contacts> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return new Container(
-      color: Colors.yellow,
+    return new Scaffold(
+      body: ContactSiderList(
+        items: conta,
+      ),
     );
   }
 }

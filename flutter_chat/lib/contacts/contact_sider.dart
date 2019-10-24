@@ -81,7 +81,9 @@ class _ContactState extends State<ContactSiderList> {
                         child: widget.sectionBuilder(context, index),
                       ),
                       Column(
-
+                        children: <Widget>[
+                          widget.itemBuilder(context, index),
+                        ],
                       ),
                     ],
                   ),

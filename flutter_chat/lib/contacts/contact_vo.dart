@@ -13,3 +13,8 @@ class ContactVO {
   ContactVO({@required this.seationKey, this.name, this.avatarUrl});
 }
 
+List<ContactVO> = [
+  new ContactVO(
+
+  )
+];
