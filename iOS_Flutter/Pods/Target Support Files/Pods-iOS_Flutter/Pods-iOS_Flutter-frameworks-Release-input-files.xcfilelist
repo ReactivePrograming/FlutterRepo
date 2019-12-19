@@ -1,0 +1,5 @@
+${PODS_ROOT}/Target Support Files/Pods-iOS_Flutter/Pods-iOS_Flutter-frameworks.sh
+${PODS_ROOT}/../../flutter_module/.ios/Flutter/engine/Flutter.framework
+${BUILT_PRODUCTS_DIR}/FlutterPluginRegistrant/FlutterPluginRegistrant.framework
+${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework
+${PODS_ROOT}/../../flutter_module/.ios/Flutter/App.framework
