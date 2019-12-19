@@ -15,10 +15,62 @@ class HomeModel {
   HomeModel({this.config, this.bannerList, this.localNavList, this.subNavList, this.gridNav, this.salesBox});
 
   factory HomeModel.fromJson(Map<String, dynamic> json) {
-    var localNaviListJson = json['localNavList'] as List;
-    List<CommonModel> localNaviList = localNaviListJson.map((i) => CommonModel.fromJson(i)).toList();
+    var localNavListJson = json['localNavList'] as List;
+    List<CommonModel> localNavList = localNavListJson.map((i) => CommonModel.fromJson(i)).toList();
 
-    return HomeModel();
+    var bannerListJson = json['localNavList'] as List;
+    List<CommonModel> bannerList = bannerListJson.map((i) => CommonModel.fromJson(i)).toList();
+
+    var subNavListJson = json['localNavList'] as List;
+    List<CommonModel> subNavList = subNavListJson.map((i) => CommonModel.fromJson(i)).toList();
+
+    return HomeModel(
+      localNavList: localNavList,
+      bannerList: bannerList,
+      subNavList: subNavList,
+      config: ConfigModel.fromJson(json['config']),
+      gridNav: GridNavModel.fromJson(json['gridNav']),
+      salesBox: SalesBoxModel.fromJson(json['salesBox'])
+    );
   }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
