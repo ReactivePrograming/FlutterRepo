@@ -12,4 +12,10 @@ class ConfigModel {
       searchUrl: json['searchUrl']
     );
   }
+  //创建一个toJSON方法
+  Map<String, dynamic> toJson() {
+    return {
+      searchUrl: searchUrl
+    };
+  }
 }
