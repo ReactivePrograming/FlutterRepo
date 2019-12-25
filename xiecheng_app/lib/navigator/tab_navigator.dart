@@ -26,15 +26,18 @@ class TabNavigatorState extends State<TabNavigator> {
     initialPage: 0
   );
 
+
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
       body: PageView(
         controller: _pageController,
+        physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
           HomePage(),
-          SearchPage(),
+          SearchPage(hideLeft: true,),
           TravelPage(),
           MyPage()
         ],
@@ -82,9 +85,9 @@ class TabNavigatorState extends State<TabNavigator> {
               )
           ),
         ],
-
-
       ),
     );
   }
+
+
 }

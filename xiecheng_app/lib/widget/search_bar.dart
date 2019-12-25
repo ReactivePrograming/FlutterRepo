@@ -59,7 +59,10 @@ class _SearchBarState extends State<SearchBar> {
       child: Row(
         children: <Widget>[
           _wrapTap(
-            widget?.hideLeft??false ? null : Icon(Icons.arrow_back_ios,color: Colors.grey, size: 26,),
+            Container(
+              padding: EdgeInsets.fromLTRB(6 , 5, 10, 5),
+              child: widget?.hideLeft??false ? null : Icon(Icons.arrow_back_ios,color: Colors.grey, size: 26,),
+            ),
             widget.leftButtonClick
           ),
           Expanded(
@@ -82,7 +85,46 @@ class _SearchBarState extends State<SearchBar> {
   }
 
   _genHomeSearch() {
-
+    return Container(
+      child: Row(
+        children: <Widget>[
+          _wrapTap(
+              Container(
+                padding: EdgeInsets.fromLTRB(6 , 5, 5, 5),
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      '上海',
+                      style: TextStyle(color: _homeFontColor(), fontSize: 14),
+                    ),
+                    Icon(
+                      Icons.expand_more,
+                      color: _homeFontColor(),
+                      size: 22,
+                    )
+                  ],
+                )
+              ),
+              widget.leftButtonClick
+          ),
+          Expanded(
+            flex: 1,
+            child: _inputBox(),
+          ),
+          _wrapTap(
+              Container(
+                padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                child: Icon(
+                  Icons.comment,
+                  color: _homeFontColor(),
+                  size: 26,
+                )
+              ),
+              widget.rightButtonClick
+          )
+        ],
+      ),
+    );
   }
 
   _inputBox() {
@@ -139,6 +181,27 @@ class _SearchBarState extends State<SearchBar> {
               widget.inputBoxClick
             )
             ,
+          ),
+          !showClear ?
+          _wrapTap(
+              Icon(
+                Icons.mic,
+                size: 22,
+                color: widget.searchBarType == SearchBarType.normal ? Colors.blue : Colors.grey,
+              ),
+              widget.speakClick
+          ) :
+          _wrapTap(
+              Icon(
+                Icons.clear,
+                size: 22,
+                color: Colors.grey,
+              ), () {
+            setState(() {
+              _controller.clear();
+            });
+            _onChanged('');
+          }
           )
         ],
       ),
@@ -169,6 +232,11 @@ class _SearchBarState extends State<SearchBar> {
       },
       child: child,
     );
+  }
+
+  //获取首页背景色
+  _homeFontColor() {
+    return widget.searchBarType == SearchBarType.homeLight ? Colors.black54 : Colors.white;
   }
 }
 

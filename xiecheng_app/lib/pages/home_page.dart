@@ -8,14 +8,17 @@ import 'package:xiecheng_app/model/common_model.dart';
 import 'package:xiecheng_app/model/grid_nav_model.dart';
 import 'package:xiecheng_app/model/home_model.dart';
 import 'package:xiecheng_app/model/sales_box_model.dart';
+import 'package:xiecheng_app/pages/search_page.dart';
 import 'package:xiecheng_app/widget/grid_nav.dart';
 import 'package:xiecheng_app/widget/loading_container.dart';
 import 'package:xiecheng_app/widget/local_nav.dart';
 import 'package:xiecheng_app/widget/sales_box.dart';
+import 'package:xiecheng_app/widget/search_bar.dart';
 import 'package:xiecheng_app/widget/sub_nav.dart';
 import 'package:xiecheng_app/widget/webview.dart';
 
 const APPBAR_SCROLL_OFFSET = 100;
+const SEARCH_BAR_DEFAULT_TEXT = '网红打卡地 景点 酒店 美食';
 
 class HomePage extends StatefulWidget {
 
@@ -27,7 +30,7 @@ class HomePage extends StatefulWidget {
 
 }
 
-class HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   //滚动图的数据源
 
   double appBarAlpha = 0;
@@ -37,6 +40,9 @@ class HomePageState extends State<HomePage> {
   List<CommonModel> subNavModel = [];
   SalesBoxModel salesBoxModel;
   bool _isLoading = true;
+
+  @protected
+  bool get wantKeepAlive => true;
 
   _onScroll(offset) {
     double alpha = offset / APPBAR_SCROLL_OFFSET;
@@ -136,24 +142,47 @@ class HomePageState extends State<HomePage> {
   }
 
   _appBar() {
-    return Opacity(
-      opacity: appBarAlpha,
-      child: Container(
-        height: 80,
-        decoration: BoxDecoration(color: Colors.white),
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.only(top: 20),
-            child: Text('首页'),
+
+    return Column(
+      children: <Widget>[
+        Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0x66000000), Colors.transparent],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter
+            ),
+          ),
+          child: Container(
+            padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+            height: 88,
+            decoration: BoxDecoration(
+              color: Color.fromARGB((appBarAlpha * 255).toInt(), 255, 255, 255)
+            ),
+            child: SearchBar(
+              searchBarType: appBarAlpha > 0.2 ? SearchBarType.homeLight : SearchBarType.home,
+              inputBoxClick: _jumpToSearch,
+              speakClick: _jumpToSpeak,
+              defaultText: SEARCH_BAR_DEFAULT_TEXT,
+              leftButtonClick: () {
+
+              },
+            ),
           ),
         ),
-      ),
+        Container(
+          height: appBarAlpha > 0.2 ? 0.5 : 0,
+          decoration: BoxDecoration(
+            boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 0.5)]
+          ),
+        )
+      ],
     );
   }
 
   _bannerView() {
     return Container(
-      height: 150,
+      height: 220,
       child: Swiper(
         itemCount: bannerList.length,
         autoplay: true,
@@ -176,5 +205,17 @@ class HomePageState extends State<HomePage> {
         pagination: SwiperPagination(),
       ),
     );
+  }
+
+  _jumpToSearch() {
+    Navigator.push(context, MaterialPageRoute(
+      builder: (context) {
+        return SearchPage(hint: SEARCH_BAR_DEFAULT_TEXT,);
+      }
+    ));
+  }
+
+  _jumpToSpeak() {
+
   }
 }
