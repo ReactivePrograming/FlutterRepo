@@ -54,6 +54,10 @@ flutter:
     - images/shop.png
     - images/ticket.png
     - images/train.png
+    - images/gs.png
+    - images/sight.png
+    - images/travelgroup.png
+    - images/channelgroup.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
